@@ -1,0 +1,51 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python package
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: Vampire/setup-wsl@v6
+      if: ${{runner.os == 'Windows' }}
+    - name: Install Nix for windows
+      if: ${{runner.os == 'Windows' }}
+      run: |
+        Invoke-WebRequest https://github.com/nix-community/NixOS-WSL/releases/download/2505.7.0/nixos.wsl -OutFile ./nixos.wsl
+        wsl --install --from-file .\nixos.wsl -n
+        wsl --list
+        Set-ExecutionPolicy -Scope CurrentUser Unrestricted # fix pdk installation error
+    - name: Install Nix for Ubuntu
+      if: ${{runner.os != 'Windows' }}
+      uses: cachix/install-nix-action@v31
+      with:
+        nix_path: nixpkgs=channel:nixos-24.11
+    - name: Config Ubuntu - Setup External Tools
+      if: ${{runner.os != 'Windows' }}
+      run: |
+        nix-channel --update
+        nix-channel --list
+    - name: Install uv
+      uses: astral-sh/setup-uv@v7
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ env.python-version }}
+    - name: Test with pytest
+      run: |
+        uv run pytest

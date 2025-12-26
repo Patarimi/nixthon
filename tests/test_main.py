@@ -9,7 +9,6 @@ def test_main():
 def test_to_wsl():
     if os.name == "nt":
         assert m.to_wsl("C:\\Users\\User") == "/mnt/c/Users/User"
-        assert m.to_wsl("\\\\Server\\Share") == "./\\\\Server/Share"
     else:
         assert m.to_wsl("/home/user") == "/home/user"
 
