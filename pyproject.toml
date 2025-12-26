@@ -22,3 +22,7 @@ build-backend = "uv_build"
 dev = [
     "pytest>=9.0.2",
 ]
+doc = [
+    "cyclopts[mkdocs]>=4.4.1",
+    "mkdocs>=1.6.1",
+]

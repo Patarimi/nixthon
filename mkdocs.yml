@@ -1,0 +1,8 @@
+site_name: NixThon Docs
+nav:
+  - Home: README.md
+  - CLI: cli.md
+
+plugins:
+  - search
+  - cyclopts
