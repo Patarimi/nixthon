@@ -53,4 +53,6 @@ def nix_run(cmd: list[str]) -> CompletedProcess:
     over_head.append(to_wsl(shell_path))
     logging.info('"' + '" "'.join(over_head))
     proc = run(over_head, capture_output=True, text=True)
+    print(f"{proc.stdout=}")
+    print(f"{proc.stderr=}")
     return proc
