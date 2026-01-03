@@ -8,6 +8,9 @@ from subprocess import run, CompletedProcess
 
 @functools.lru_cache(maxsize=1)
 def nix_check():
+    """
+    Check if nix is installed and available.
+    """
     if os.name == "nt":
         proc = run(["wsl", "-l"], capture_output=True, text=True)
         list_of_wsl = proc.stdout.replace("\0", "")
@@ -42,6 +45,9 @@ def to_wsl(path: (Path | str)) -> str:
 
 
 def nix_run(cmd: list[str]) -> CompletedProcess:
+    """
+    Run a command inside nix-shell.
+    """
     over_head = [
         "nix-shell",
         "--command",
