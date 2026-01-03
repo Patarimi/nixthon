@@ -1,5 +1,5 @@
 import os
-from nixthon import main as m
+from nixthon import core as m
 
 
 def test_main():

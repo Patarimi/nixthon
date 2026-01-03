@@ -1,2 +1,2 @@
 ::: cyclopts
-    module: nixthon.__init__
+    module: nixthon.cli:app
