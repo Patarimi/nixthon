@@ -1,6 +1,9 @@
 from cyclopts import App
 
 from nixthon.core import nix_check
+import logging
+
+logging.basicConfig(level=logging.WARNING)
 
 app = App("nixthon")
 
