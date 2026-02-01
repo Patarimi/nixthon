@@ -2,7 +2,8 @@ from cyclopts import App
 from nixthon import core
 import logging
 
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.INFO,
+                    format='%(levelname)s - %(message)s')
 
 app = App("nixthon")
 
