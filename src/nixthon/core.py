@@ -18,9 +18,11 @@ def nix_check():
         if "NixOS" not in list_of_wsl:
             logging.error(list_of_wsl)
             return False
+        logging.info("NixOS WSL distribution found.")
     try:
         proc = nix_run(["nix --version"])
-        logging.info(f"{proc.stdout=}")
+        logging.info(f"nix command found: {proc.stdout}")
+        logging.info("Checks passed: nix is installed and available.")
         return True
     except Exception as e:
         logging.error(e)
@@ -58,12 +60,12 @@ def nix_run(cmd: list[str]) -> CompletedProcess:
     over_head.append(" ".join(cmd))
     shell_path = dirname(__file__) + "/shell.nix"
     over_head.append(to_wsl(shell_path))
-    logging.info('"' + '" "'.join(over_head))
+    logging.debug('"' + '" "'.join(over_head) + '"')
     proc = run(
         over_head, capture_output=True, text=True, encoding="utf-8", errors="replace"
     )
-    print(f"{proc.stdout=}")
-    print(f"{proc.stderr=}")
+    logging.debug(f"{proc.stdout=}")
+    logging.debug(f"{proc.stderr=}")
     return proc
 
 
