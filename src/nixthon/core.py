@@ -3,6 +3,7 @@ import logging
 import os
 from os.path import dirname
 from pathlib import Path
+import shutil
 from subprocess import run, CompletedProcess
 
 
@@ -58,7 +59,20 @@ def nix_run(cmd: list[str]) -> CompletedProcess:
     shell_path = dirname(__file__) + "/shell.nix"
     over_head.append(to_wsl(shell_path))
     logging.info('"' + '" "'.join(over_head))
-    proc = run(over_head, capture_output=True, text=True, encoding="utf-8", errors="replace")
+    proc = run(
+        over_head, capture_output=True, text=True, encoding="utf-8", errors="replace"
+    )
     print(f"{proc.stdout=}")
     print(f"{proc.stderr=}")
     return proc
+
+
+def init_nixthon_project(project_path: (Path | str) = Path.cwd()) -> None:
+    """
+    Initialize a nixthon project by creating a shell.nix file in the specified directory.
+    """
+    if type(project_path) is not Path:
+        project_path = Path(project_path)
+    shutil.copyfile(
+        Path(__file__).parent.parent / "template/shell.nix", project_path / "shell.nix"
+    )
