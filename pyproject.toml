@@ -26,3 +26,9 @@ doc = [
     "cyclopts[mkdocs]>=4.4.1",
     "mkdocs>=1.6.1",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+log_cli_level = "ERROR"
+log_file_level = "INFO"
+log_file = "./pytest.log"

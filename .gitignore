@@ -9,3 +9,7 @@ site/
 
 # Virtual environments
 .venv
+
+# test and coverage files
+.coverage
+pytest.log
