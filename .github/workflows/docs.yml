@@ -23,7 +23,7 @@ jobs:
       - uses: astral-sh/setup-uv@v7
       - run: uv sync --group=doc
       - run: uv run mkdocs build --clean
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site
       - uses: actions/deploy-pages@v5
