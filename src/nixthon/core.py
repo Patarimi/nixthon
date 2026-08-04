@@ -1,10 +1,10 @@
 import functools
 import logging
 import os
+import shutil
 from os.path import dirname
 from pathlib import Path
-import shutil
-from subprocess import run, CompletedProcess
+from subprocess import CompletedProcess, run
 
 
 @functools.lru_cache(maxsize=1)
