@@ -1,6 +1,9 @@
 import logging
 import os
+
 from nixthon import core as m
+
+logger = logging.getLogger(__name__)
 
 
 def test_main():
@@ -20,10 +23,16 @@ def test_nix_run():
     assert "Hello, Nix!" in proc.stdout
 
 
+def test_nix_run_with_packages():
+    proc = m.nix_run(["cowsay Hello, Nix!"], pkgs=["cowsay"])
+    assert proc.returncode == 0
+    assert "Hello, Nix!" in proc.stdout
+
+
 def test_init_nixthon_project(tmp_path):
     project_dir = tmp_path / "my_nixthon_project"
     project_dir.mkdir()
     m.init_nixthon_project(project_dir)
     shell_nix_path = project_dir / "shell.nix"
-    logging.info(f"Created shell.nix at: {shell_nix_path}")
+    logger.info(f"Created shell.nix at: {shell_nix_path}")
     assert shell_nix_path.exists()
