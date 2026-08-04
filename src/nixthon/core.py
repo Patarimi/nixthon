@@ -51,19 +51,34 @@ def to_wsl(path: (Path | str)) -> str:
     return str(path)
 
 
-def nix_run(cmd: list[str]) -> CompletedProcess:
+def nix_run(
+    cmd: list[str], pkgs: str | list[str] | None = None, nix_file: Path | None = None
+) -> CompletedProcess:
     """
-    Run a command inside nix-shell.
+    Run a command inside nix-shell. nix_file and pgks cannot be used together. If both are provided, nix_file will be used.
+    :param cmd: The command to run as a list of strings.
+    :param pkgs: Optional list of packages to include in the nix-shell environment.
+    :param nix_file: Optional path to a shell.nix file to use for the nix.
     """
     over_head = [
         "nix-shell",
-        "--command",
     ]
+    if pkgs:
+        if type(pkgs) is str:
+            pkgs = [pkgs]
+        over_head.append("-p")
+        over_head.append(" ".join(pkgs))
+    over_head.append("--command")
+    if nix_file:
+        shell_path = nix_file
+    if not nix_file and not pkgs:
+        shell_path = THIS_DIR / "shell.nix"
+
     if os.name == "nt":
         over_head = ["wsl", "-d", "NixOS", "--shell-type", "login"] + over_head
     over_head.append(" ".join(cmd))
-    shell_path = THIS_DIR / "shell.nix"
-    over_head.append(to_wsl(shell_path))
+    if "shell_path" in locals():
+        over_head.append(to_wsl(shell_path))
     logger.debug('"' + '" "'.join(over_head) + '"')
     proc = run(
         over_head,

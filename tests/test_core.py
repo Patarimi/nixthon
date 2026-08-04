@@ -23,6 +23,12 @@ def test_nix_run():
     assert "Hello, Nix!" in proc.stdout
 
 
+def test_nix_run_with_packages():
+    proc = m.nix_run(["cowsay Hello, Nix!"], pkgs=["cowsay"])
+    assert proc.returncode == 0
+    assert "Hello, Nix!" in proc.stdout
+
+
 def test_init_nixthon_project(tmp_path):
     project_dir = tmp_path / "my_nixthon_project"
     project_dir.mkdir()
