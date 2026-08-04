@@ -3,6 +3,8 @@ import os
 
 from nixthon import core as m
 
+logger = logging.getLogger(__name__)
+
 
 def test_main():
     assert m.nix_check()
@@ -26,5 +28,5 @@ def test_init_nixthon_project(tmp_path):
     project_dir.mkdir()
     m.init_nixthon_project(project_dir)
     shell_nix_path = project_dir / "shell.nix"
-    logging.info(f"Created shell.nix at: {shell_nix_path}")
+    logger.info(f"Created shell.nix at: {shell_nix_path}")
     assert shell_nix_path.exists()
