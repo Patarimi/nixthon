@@ -86,7 +86,7 @@ def nix_run(
         text=True,
         encoding="utf-8",
         errors="replace",
-        check=False,
+        check=True,
     )
     logger.debug(f"{proc.stdout=}")
     logger.debug(f"{proc.stderr=}")
