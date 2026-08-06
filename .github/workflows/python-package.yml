@@ -22,7 +22,7 @@ jobs:
       contents: read
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - uses: Vampire/setup-wsl@v7
       if: ${{runner.os == 'Windows' }}
     - name: Install Nix for windows
