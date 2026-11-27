@@ -34,7 +34,7 @@ jobs:
         Set-ExecutionPolicy -Scope CurrentUser Unrestricted # fix pdk installation error
     - name: Install Nix for Ubuntu
       if: ${{runner.os != 'Windows' }}
-      uses: cachix/install-nix-action@v31
+      uses: cachix/install-nix-action@v32
       with:
         nix_path: nixpkgs=channel:nixos-24.11
     - name: Config Ubuntu - Setup External Tools
